@@ -1,0 +1,68 @@
+:root {
+  --bg-main: #0A0A0F;
+  --bg-paper: #12121A;
+  --bg-card: #1A1A2E;
+  --text-primary: #FFFFFF;
+  --text-secondary: #A0A0B8;
+  --border-color: rgba(255,255,255,0.06);
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+[data-mantine-color-scheme="light"] {
+  --bg-main: #F4F6FA;
+  --bg-paper: #FFFFFF;
+  --bg-card: #F0F2F6;
+  --text-primary: #12121A;
+  --text-secondary: #5A5A72;
+  --border-color: rgba(0,0,0,0.06);
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  margin: 0;
+  transition: background 0.2s ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.glass {
+  background: var(--bg-paper);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+}
+
+.paper-clean {
+  background: var(--bg-paper);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+.card-stat {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.card-stat:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(124, 58, 237, 0.15);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+  background: #7C3AED;
+  border-radius: 8px;
+}
