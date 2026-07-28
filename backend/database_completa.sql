@@ -355,6 +355,61 @@ CREATE TABLE IF NOT EXISTS audit_logs (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
+-- 30. TABLA: tienda - items
+CREATE TABLE IF NOT EXISTS store_items (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(200) NOT NULL,
+    description TEXT,
+    category VARCHAR(50) NOT NULL DEFAULT 'other',
+    image_url VARCHAR(500),
+    points_cost INTEGER NOT NULL DEFAULT 50,
+    available BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- 31. TABLA: items comprados por usuario
+CREATE TABLE IF NOT EXISTS user_items (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    item_id INTEGER REFERENCES store_items(id) ON DELETE CASCADE,
+    purchased_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE(user_id, item_id)
+);
+
+-- 32. TABLA: recompensas canjeables
+CREATE TABLE IF NOT EXISTS rewards (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(200) NOT NULL,
+    description TEXT,
+    points_cost INTEGER NOT NULL DEFAULT 100,
+    image_url VARCHAR(500),
+    available BOOLEAN DEFAULT TRUE,
+    is_premium_reward BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- 33. TABLA: recompensas canjeadas por usuario
+CREATE TABLE IF NOT EXISTS user_rewards (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    reward_id INTEGER REFERENCES rewards(id) ON DELETE CASCADE,
+    redeemed_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE(user_id, reward_id)
+);
+
+-- 34. TABLA: eventos del calendario
+CREATE TABLE IF NOT EXISTS calendar_events (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    title VARCHAR(200) NOT NULL,
+    description TEXT DEFAULT '',
+    type VARCHAR(50) DEFAULT 'other',
+    start_time TIME,
+    end_time TIME,
+    date DATE NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
 -- =============================================================
 -- INDICES
 -- =============================================================
@@ -387,6 +442,13 @@ CREATE INDEX IF NOT EXISTS idx_withdrawals_status ON withdrawals(status);
 CREATE INDEX IF NOT EXISTS idx_audit_logs_user_id ON audit_logs(user_id);
 CREATE INDEX IF NOT EXISTS idx_audit_logs_action ON audit_logs(action);
 CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at ON audit_logs(created_at);
+CREATE INDEX IF NOT EXISTS idx_store_items_available ON store_items(available);
+CREATE INDEX IF NOT EXISTS idx_store_items_category ON store_items(category);
+CREATE INDEX IF NOT EXISTS idx_user_items_user_id ON user_items(user_id);
+CREATE INDEX IF NOT EXISTS idx_rewards_available ON rewards(available);
+CREATE INDEX IF NOT EXISTS idx_user_rewards_user_id ON user_rewards(user_id);
+CREATE INDEX IF NOT EXISTS idx_calendar_events_user_id ON calendar_events(user_id);
+CREATE INDEX IF NOT EXISTS idx_calendar_events_date ON calendar_events(date);
 
 -- =============================================================
 -- DATOS INICIALES (SEED)
@@ -421,11 +483,11 @@ ON CONFLICT DO NOTHING;
 -- Skins
 INSERT INTO skins (name, image_url, points_cost) VALUES
   ('Default', '', 0),
-  ('Galaxy', '/skins/galaxy.png', 100),
-  ('Neon', '/skins/neon.png', 150),
-  ('Gold', '/skins/gold.png', 300),
-  ('Diamond', '/skins/diamond.png', 500),
-  ('Cyberpunk', '/skins/cyberpunk.png', 800)
+  ('Galaxy', '', 100),
+  ('Neon', '', 150),
+  ('Gold', '', 300),
+  ('Diamond', '', 500),
+  ('Cyberpunk', '', 800)
 ON CONFLICT DO NOTHING;
 
 -- Retos premium
