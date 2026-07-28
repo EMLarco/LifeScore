@@ -25,7 +25,8 @@ A **Progressive Web App** that transforms daily habits into an engaging RPG-like
 
 | Dashboard | Habits | Store |
 |:---------:|:------:|:-----:|
-| ![Dashboard](https://placehold.co/800x500/1a1b2e/7c3aed?text=Dashboard) | ![Habits](https://placehold.co/800x500/1a1b2e/7c3aed?text=Habits) | ![Store](https://placehold.co/800x500/1a1b2e/7c3aed?text=Store) |
+| ![Dashboard](<img width="1268" height="647" alt="image" src="https://github.com/user-attachments/assets/fac9df81-76dd-46ab-ace5-089ceb032dbc" />
+) | ![Habits](https://placehold.co/800x500/1a1b2e/7c3aed?text=Habits) | ![Store](https://placehold.co/800x500/1a1b2e/7c3aed?text=Store) |
 
 | Profile | Achievements | Challenges |
 |:-------:|:------------:|:----------:|
