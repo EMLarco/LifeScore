@@ -42,7 +42,14 @@ const app = express();
 // Middlewares globales (orden secuencial - pág. 38)
 app.use(helmet()); // Seguridad
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    const allowed = (process.env.FRONTEND_URL || 'http://localhost:5173').split(',');
+    if (!origin || allowed.includes(origin.trim())) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 app.use(express.json()); // Parsear JSON
