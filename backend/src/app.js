@@ -40,14 +40,16 @@ const withdrawalRoutes = require('./routes/withdrawal.routes');
 const app = express();
 
 // Middlewares globales (orden secuencial - pág. 38)
-app.use(helmet()); // Seguridad
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+}));
 app.use(cors({
   origin: (origin, callback) => {
     const allowed = (process.env.FRONTEND_URL || 'http://localhost:5173').split(',');
-    if (!origin || allowed.includes(origin.trim())) {
+    if (!origin || allowed.map(u => u.trim()).some(u => origin.includes(u))) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(null, true);
     }
   },
   credentials: true,
