@@ -78,6 +78,7 @@ CREATE TABLE IF NOT EXISTS user_schedule (
     activity_id INTEGER,
     title VARCHAR(200),
     color VARCHAR(7) DEFAULT '#7C3AED',
+    is_day_off BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -520,8 +521,9 @@ SELECT day, name, descr, icon, color FROM (VALUES
 ) AS vals(day, name, descr, icon, color)
 WHERE NOT EXISTS (SELECT 1 FROM daily_achievements WHERE day_of_year = vals.day);
 
--- Eliminar restriccion UNIQUE de user_schedule si existe
+-- Migraciones para user_schedule
 ALTER TABLE user_schedule DROP CONSTRAINT IF EXISTS user_schedule_user_id_day_of_week_key;
+ALTER TABLE user_schedule ADD COLUMN IF NOT EXISTS is_day_off BOOLEAN DEFAULT FALSE;
 
 -- =============================================================
 -- VERIFICACION
